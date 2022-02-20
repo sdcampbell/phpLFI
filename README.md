@@ -38,7 +38,7 @@ landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
 pollinate:x:109:1::/var/cache/pollinate:/bin/false
 sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
 mysql:x:111:114:MySQL Server,,,:/nonexistent:/bin/false
-mike:x:1000:1000:aaron:/home/aaron:/bin/bash
+mike:x:1000:1000:mike:/home/mike:/bin/bash
 
 
 [i] Searching php files for includes...
