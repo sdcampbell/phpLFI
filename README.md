@@ -12,3 +12,4 @@ Give it at least one php file for the -f option. I recommend you run gobuster/ff
 
 Please note that this program is limited to discovering and exploiting LFI in PHP only, and only when a single '=' appears in the URL. I may add the ability to test/exploit multiple params at a later date, but feel free to contribute that feature if you need it and can't wait. :)
 
+![Screenshot](screenshot.png)
