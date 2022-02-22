@@ -4,7 +4,6 @@ import std/re
 import std/sequtils
 import std/parseopt
 import strutils
-import strformat
 import termstyle
 
 var p = initOptParser()
