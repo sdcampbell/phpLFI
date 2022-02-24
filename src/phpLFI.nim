@@ -11,37 +11,6 @@ let usage = """Author:   Steve Campbell  - @lpha3ch0
 Purpose:  Test for LFI in PHP params and download the source code of vulnerable PHP apps.
 Usage:    phpLFI[.exe] -u:URL -f:file1.php,file2.php"""
 
-const
-  termInfo* = "\e[37m[\u2139] "
-  termSuccess* = "\e[32m[\u2713] "
-  termWarn* = "\e[33m[\u26A0] "
-  termError* = "\e[31m[\u2717] "
-
-template addEnd(ss: varargs[string, `$`]): untyped =
-  for s in ss:
-    result &= s
-  result &= termClear
-
-proc info*(ss: varargs[string, `$`]): string =
-  ## Prepends info symbol and colors text white
-  result = termInfo
-  addEnd(ss)
-
-proc success*(ss: varargs[string, `$`]): string =
-  ## Prepends success symbol and colors text green
-  result = termSuccess
-  addEnd(ss)
-
-proc warning*(ss: varargs[string, `$`]): string =
-  ## Prepends warning symbol and colors text yellow
-  result = termWarn
-  addEnd(ss)
-  
-proc error*(ss: varargs[string, `$`]): string =
-  ## Prepends error symbol and colors text red
-  result = termError
-  addEnd(ss)
-
 
 proc parse_args: (bool, string, string, bool) =
   var help: bool = false
