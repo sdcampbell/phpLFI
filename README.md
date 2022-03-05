@@ -3,6 +3,10 @@ Tests for LFI in PHP apps and automates the process of abusing LFI's to download
 
 ## Install
 
+Install Nim: https://nim-lang.org/install.html
+
+Install phpLFI:
+
  ```
  git clone https://github.com/sdcampbell/phpLFI
  cd phpLFI
