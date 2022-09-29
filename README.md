@@ -1,11 +1,11 @@
 # phpLFI
 Tests for LFI in PHP apps and automates the process of abusing LFI's to download source code and discover new files via includes and recursively download additional source code files.
 
-## Install
+## Build
 
 Install Nim: https://nim-lang.org/install.html
 
-Install phpLFI:
+Build phpLFI:
 
  ```
  git clone https://github.com/sdcampbell/phpLFI
